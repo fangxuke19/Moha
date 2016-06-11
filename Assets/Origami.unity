@@ -575,7 +575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bfcbbfce0e6d474e97aadd4a5947e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2034714950
+--- !u!114 &2034714951
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletBall: {fileID: 100468, guid: c601cf4818fdef646a77291c9923ef3f, type: 2}
-  spawnTime: 3
+  spawnTime: 1
   spawnPoints:
   - {fileID: 667775530}
 --- !u!1 &2038327365 stripped
