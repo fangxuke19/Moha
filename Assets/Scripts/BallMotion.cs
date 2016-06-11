@@ -30,15 +30,27 @@ public class BallMotion : MonoBehaviour
     public static float ANGLE = 1.57f;
     public static double Radius = 5.0;
     public static double InnerRadius = 0.3;
+    public static double NumOfNotes = 8;
+    public static double ClipTime = 1;
+    static int NumOfObjects = 0;
+    AudioClip rollingClip = null;
+    ArrayList notes = new ArrayList();
+ 	// int[] MusicNotes = {6,7,1,3,6,7,1,3,6,7,1,3};
+    string[] MusicNotes = {"3h","2h","3h","2h","3h","7","2h","1h","6","-1","1","3","6","7","-1","3","5","7"};
+
     class BallWrapper 
     {
     	public GameObject BulletBall;
     	public float angle;
+    	public AudioSource audioSource = null;
     } 
     void Start ()
     {
         // Call the Spawn functio
         InvokeRepeating ("Spawn", spawnTime, spawnTime);
+      
+        // for (int i = 1; i <= NumOfNotes; ++i)
+        // 	notes.Add(Resources.Load<AudioClip>(i+""));
         // spawnPoints = new Transform[LENGTH];
         // for (int i =0; i < LENGTH; ++i)
         // 	{
@@ -54,23 +66,42 @@ public class BallMotion : MonoBehaviour
     		GameObject b = wr.BulletBall;
     		if (b.transform.position.z <= InnerRadius)
             {
-                
                 BulletBallList.RemoveAt(i);
+                //wr.audioSource.Stop();
                 Destroy(b);
+            double t0 = AudioSettings.dspTime;
+			// double clipTime1 = len1;
+			// clipTime1 /= cutClip1.frequency;
+			wr.audioSource.PlayScheduled(t0);
+			wr.audioSource.SetScheduledEndTime(t0 + ClipTime);
             }
     			
     		else 
-    			{
-    			// Vector3 pos = b.transform.position;
-    			float updatedZ =  -1 * speed;
-    			//Vector3 tmp(pos.x, pos.y, updatedZ);
-    			float alpha = wr.angle;
-    			b.transform.Translate(updatedZ * Mathf.Sin(alpha), 0, updatedZ * Mathf.Cos(alpha));
-    			i++;
-    			}
+			{
+			// Vector3 pos = b.transform.position;
+			float updatedZ =  -1 * speed;
+			//Vector3 tmp(pos.x, pos.y, updatedZ);
+			float alpha = wr.angle;
+			b.transform.Translate(updatedZ * Mathf.Sin(alpha), 0, updatedZ * Mathf.Cos(alpha));
+			i++;
+			}
     	}
     }
 
+    AudioSource buildAudio()
+    {
+    	AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.spatialize = true;
+        audioSource.spatialBlend = 1.0f;
+        audioSource.dopplerLevel = 0.0f;
+        audioSource.rolloffMode = AudioRolloffMode.Custom;
+        return audioSource;
+    }
+
+   
+   
+    //-5-------222---2xx--2--2-214---h15--1514
     void Spawn ()
     {
         // If the player has no health left...
@@ -79,7 +110,10 @@ public class BallMotion : MonoBehaviour
         //     // ... exit the function.
         //     return;
         // }
-
+        //if(NumOfObjects )
+        string node = MusicNotes[NumOfObjects];
+    	if (node == "-1")
+    		return;
         // Find a random index between zero and one less than the number of spawn points.
         int spawnPointIndex = Random.Range (0, spawnPoints.Length);
         float alpha = Random.Range(-10, 10+1) * ANGLE / 21.0f;
@@ -90,6 +124,10 @@ public class BallMotion : MonoBehaviour
         BallWrapper wrapper = new BallWrapper();
         wrapper.BulletBall = (GameObject)Instantiate (BulletBall, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
         wrapper.angle = alpha;
+        wrapper.audioSource = buildAudio();
+        wrapper.audioSource.clip = (AudioClip)Resources.Load<AudioClip>(node);
+        // wrapper.audioSource.Play();
         BulletBallList.Add(wrapper);
+        NumOfObjects++;
     }
 }
