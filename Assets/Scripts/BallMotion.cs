@@ -15,7 +15,6 @@ using System.Collections;
 // }
 
 // using UnityEngine;
-
 public class BallMotion : MonoBehaviour
 {
     // public PlayerHealth playerHealth;       // Reference to the player's heatlh.
