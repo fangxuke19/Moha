@@ -31,6 +31,7 @@ public class BallMotion : MonoBehaviour
     public static double InnerRadius = 0.3;
     public static double NumOfNotes = 8;
     public static double ClipTime = 1;
+    public static float FORCE = 0.5f;
     static int NumOfObjects = 0;
     AudioClip rollingClip = null;
     ArrayList notes = new ArrayList();
@@ -64,7 +65,7 @@ public class BallMotion : MonoBehaviour
     	{
     		BallWrapper wr = (BallWrapper)Parent.BulletBallList[i];
     		GameObject b = wr.BulletBall;
-    		if (b.transform.position.z <= InnerRadius)
+    		if (b != null && b.transform.position.z <= InnerRadius)
             {
                 Parent.BulletBallList.RemoveAt(i);
                 //wr.audioSource.Stop();
@@ -75,6 +76,8 @@ public class BallMotion : MonoBehaviour
 			wr.audioSource.PlayScheduled(t0);
 			wr.audioSource.SetScheduledEndTime(t0 + ClipTime);
             }
+            else
+                i++;
     			
    // 		else 
 			//{
@@ -93,12 +96,12 @@ public class BallMotion : MonoBehaviour
         Rigidbody rb = this.GetComponent<Rigidbody>();
         Vector3 originP = new Vector3(0, 0, 0);
         Vector3 dir = originP - this.transform.position;
-        //rb.AddForce(dir * 10);
-        rb.AddForce(0,0,10, ForceMode.VelocityChange);
+        rb.AddForce(dir * FORCE);
+        // rb.AddForce(0,0,-10, ForceMode.VelocityChange);
 
     }
 
-
+   
     //void OnCollisionEnter(Collision collision)
     //{
     //    GameObject obj = collision.gameObject;

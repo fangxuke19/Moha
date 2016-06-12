@@ -59,7 +59,7 @@ public class Parent : MonoBehaviour {
         // spawnPoints[spawnPointIndex].position.z = ;
         // Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
         BallWrapper wrapper = new BallWrapper();
-        wrapper.BulletBall = (GameObject)Instantiate (BulletBall, spawnPosition, Quaternion.identity);
+        wrapper.BulletBall = Instantiate (BulletBall, spawnPosition, Quaternion.identity) as GameObject;
         wrapper.angle = alpha;
         wrapper.audioSource = buildAudio();
         wrapper.audioSource.clip = (AudioClip)Resources.Load<AudioClip>(node);

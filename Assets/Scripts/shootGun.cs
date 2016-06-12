@@ -14,12 +14,12 @@ public class shootGun : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //var headPosition = Camera.main.transform.position;
-        //var rotation = Camera.main.transform.rotation;
-        //Vector3 temp = new Vector3();
-        //temp.x = (float)shieldRadius * Mathf.Sin(rotation.y * 2) + headPosition.x;
-        //temp.z = (float)shieldRadius * Mathf.Cos(rotation.y * 2) + headPosition.z;
-        //this.transform.position = temp;
+        var headPosition = Camera.main.transform.position;
+        var rotation = Camera.main.transform.rotation;
+        Vector3 temp = new Vector3();
+        temp.x = (float)shieldRadius * Mathf.Sin(rotation.y * 2) + headPosition.x;
+        temp.z = (float)shieldRadius * Mathf.Cos(rotation.y * 2) + headPosition.z;
+        this.transform.position = temp;
         // float DistanceFromCollision = 0.1f;
         // this.gameObject.transform.position = GazeManager.Instance.Position + GazeManager.Instance.Normal * DistanceFromCollision;
         // this.transform.position = ();
@@ -45,9 +45,9 @@ public class shootGun : MonoBehaviour {
     void OnCollisionEnter(Collision collision)
     {
         GameObject obj = collision.gameObject;
-        if (obj is SphereCollider)
-            Destroy(obj);
-    
+       
+       Destroy(obj);
+
         // Play an impact sound if the sphere impacts strongly enough.
         //if (collision.relativeVelocity.magnitude >= 0.1f)
         //{
@@ -55,4 +55,5 @@ public class shootGun : MonoBehaviour {
         //    audioSource.Play();
         //}
     }
+  
 }
